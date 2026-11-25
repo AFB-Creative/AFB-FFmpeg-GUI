@@ -60,7 +60,7 @@ class MainWindow:
         "progress" : "",
         "meta" : ""
         }
-        self.hideable = ["options_frame", "cmd_button", "cmd_label", "meta_head", "preview_head", "progress_bar", "view_button", "trim_check", "trim_frame"]
+        self.hideable = ["options_frame", "cmd_button", "cmd_label", "meta_head", "preview_head", "progress_bar", "view_button", "trim_frame", "copy_cmd_button"]
         self.last_processed = ""
         self.in_folder = ""
 
@@ -79,18 +79,18 @@ class MainWindow:
         in_entry.grid(column=1, columnspan=3, row=2, sticky="EW")
 
         # Input selector button
-        in_button = ttk.Button(main_frame, text="File", command=self.choose_input, padding=(5, 2, 5, 2))
-        in_button.grid(column=4, row=2, sticky="W")
+        in_button = ttk.Button(main_frame, text="File", command=self.choose_input, padding=(5, 2, 5, 2), cursor="hand2")
+        in_button.grid(column=4, row=2, sticky="EW")
 
         # Auto output folder name option
         self.auto_folder_var = BooleanVar(value=self.defaults["auto_folder"])
-        self.folder_check = Checkbutton(main_frame, text="Auto folder name", variable=self.auto_folder_var, font=font_italic)
+        self.folder_check = Checkbutton(main_frame, text="Auto folder name", variable=self.auto_folder_var, font=font_italic, cursor="hand2")
         self.folder_check.grid(column=3, row=3, sticky="NW")
 
         # Auto output file name option
         self.auto_file_var = BooleanVar(value=self.defaults["auto_file"])
-        self.file_check = Checkbutton(main_frame, text="Auto file name", variable=self.auto_file_var, font=font_italic)
-        self.file_check.grid(column=3, row=3, sticky="NE")
+        self.file_check = Checkbutton(main_frame, text="Auto file name", variable=self.auto_file_var, font=font_italic, cursor="hand2")
+        self.file_check.grid(column=4, row=3, sticky="NW")
 
         # Output label
         ttk.Label(main_frame, text="Output folder", font=font_heading).grid(column=1, row=3, sticky="W")
@@ -101,8 +101,8 @@ class MainWindow:
         out_entry.grid(column=1, columnspan=3, row=4, sticky="EW")
 
         # Output selector button
-        out_button = ttk.Button(main_frame, text="Folder", command=self.choose_output, padding=(5, 2, 5, 2))
-        out_button.grid(column=4, row=4, sticky="W")
+        out_button = ttk.Button(main_frame, text="Folder", command=self.choose_output, padding=(5, 2, 5, 2), cursor="hand2")
+        out_button.grid(column=4, row=4, sticky="EW")
         
         # Output file name label
         ttk.Label(main_frame, text="Output file name", font=font_heading).grid(column=1, row=5, sticky="W")
@@ -113,11 +113,11 @@ class MainWindow:
         out_file_entry.grid(column=1, columnspan=3, row=6, sticky="WE")
 
         # Note label
-        ttk.Label(main_frame, text="Note: Frame number and extension will be added automatically based on options below (e.g. image_%02d.png), so do not add them manually here", font=font_note, wraplength=515, justify="center").grid(column=1, columnspan=3, row=7, sticky="W")
+        ttk.Label(main_frame, text="Note: Frame number and extension will be added automatically based on options below (e.g. image_%02d.png), so do not add them manually here", font=font_note, wraplength=475, justify="center").grid(column=1, columnspan=3, row=7, sticky="W")
 
         # Reset the whole tool button
-        reset_button = ttk.Button(main_frame, text="Reset tool", command=self.reset_tool, padding=(5, 2, 5, 2))
-        reset_button.grid(column=4, row=6, sticky="W")
+        reset_button = ttk.Button(main_frame, text="Reset tool", command=self.reset_tool, padding=(5, 2, 5, 2), cursor="hand2")
+        reset_button.grid(column=4, row=6, sticky="EW")
 
         # Options Frame
         self.options_frame = ttk.Frame(main_frame)
@@ -132,7 +132,7 @@ class MainWindow:
         # Image format options
         fmt_list = ["png", "jpg", "exr", "webp", "tif", "bmp", "tga"] # Maybe add a custom option?
         self.fmt_var = StringVar(value=self.defaults["fmt"])
-        format_menu = ttk.Combobox(self.options_frame, width = 8, textvariable = self.fmt_var, values = fmt_list, state="readonly")
+        format_menu = ttk.Combobox(self.options_frame, width = 8, textvariable = self.fmt_var, values = fmt_list, state="readonly", cursor="hand2")
         format_menu.grid(column=2, row=2, sticky="NW")
         
         # FPS
@@ -141,7 +141,7 @@ class MainWindow:
         # FPS options
         fps_list = ["Auto", "1", "5", "10", "12", "15", "20", "23.976", "24", "25", "29.97", "30", "48", "50", "59.94", "60", "96", "119.88", "120"] # Maybe add a custom option?
         self.fps_var = StringVar(value=self.defaults["fps"])
-        fps_menu = ttk.Combobox(self.options_frame, width = 8, values=fps_list, textvariable = self.fps_var, state="readonly")
+        fps_menu = ttk.Combobox(self.options_frame, width = 8, values=fps_list, textvariable = self.fps_var, state="readonly", cursor="hand2")
         fps_menu.grid(column=2, row=3, sticky="NW")
         
         # Scale Label
@@ -150,7 +150,7 @@ class MainWindow:
         # Scaling options
         scale_list = [0.1, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 3.0] # Maybe add a custom option?
         self.scale_var = StringVar(value=self.defaults["scale"])
-        scale_menu = ttk.Combobox(self.options_frame, width = 8, values=scale_list, textvariable = self.scale_var)
+        scale_menu = ttk.Combobox(self.options_frame, width = 8, values=scale_list, textvariable = self.scale_var, cursor="hand2")
         scale_menu.grid(column=2, row=4, sticky="NW")
 
         # File number separator label
@@ -159,21 +159,21 @@ class MainWindow:
         # File number separator options
         sep_list = ["_", "-", ".", "~", "Space", "@", "None"] # Maybe add a custom option?
         self.sep_var = StringVar(value=self.defaults["sep"])
-        sep_menu = ttk.Combobox(self.options_frame, width = 8, textvariable = self.sep_var, values = sep_list, state="readonly")
+        sep_menu = ttk.Combobox(self.options_frame, width = 8, textvariable = self.sep_var, values = sep_list, state="readonly", cursor="hand2")
         sep_menu.grid(column=2, row=5, sticky="NW")
         
         # File number padding check option
         self.pad_check_var = BooleanVar(value=self.defaults["pad_check"])
-        self.pad_check = Checkbutton(self.options_frame, text="Pad numbers", variable=self.pad_check_var, font=font_italic)
-        self.pad_check.grid(column=3, row=5, sticky="NW", padx=40)
+        self.pad_check = Checkbutton(self.options_frame, text="Pad numbers", variable=self.pad_check_var, font=font_italic, cursor="hand2")
+        self.pad_check.grid(column=3, row=5, sticky="NW", padx=38)
 
         # Overwrite Option
         self.overwrite_var = BooleanVar(value=self.defaults["overwrite"])
-        self.overwrite_check = Checkbutton(self.options_frame, text="Overwrite files", variable=self.overwrite_var, font=font_italic)
-        self.overwrite_check.grid(column=3, row=5, sticky="NE")
+        self.overwrite_check = Checkbutton(self.options_frame, text="Overwrite files", variable=self.overwrite_var, font=font_italic, cursor="hand2")
+        self.overwrite_check.grid(column=4, row=5, sticky="NW")
         
         # Metadata from input video file
-        self.meta_head = ttk.Label(self.options_frame, text="Input metadata", font=font_bold, justify="left", width=28)
+        self.meta_head = ttk.Label(self.options_frame, text="Input metadata", font=font_bold, justify="left", width=22)
         self.meta_head.grid(column=3, row=1, sticky="NW", padx=40)
 
         # Metadata Label
@@ -192,7 +192,7 @@ class MainWindow:
 
         # Trim clip check option
         self.trim_check_var = BooleanVar(value=self.defaults["trim_check"]) # False by default
-        self.trim_check = Checkbutton(self.options_frame, text="Trim clip", variable=self.trim_check_var, command = self.toggle_trim, font=font_italic)
+        self.trim_check = Checkbutton(self.options_frame, text="Trim clip", variable=self.trim_check_var, command = self.toggle_trim, font=font_italic, cursor="hand2")
         self.trim_check.grid(column=1, row=6, sticky="NW")
 
         # Trim options hideable frame
@@ -202,10 +202,10 @@ class MainWindow:
         # Trim method options
         self.trim_method_var = StringVar(value=self.defaults["trim_method"])
         
-        trim_by_frame = ttk.Radiobutton(self.trim_frame, variable=self.trim_method_var, text = "Frames", value = "Frames", width=8, command=self.toggle_method)
+        trim_by_frame = ttk.Radiobutton(self.trim_frame, variable=self.trim_method_var, text = "Frames", value = "Frames", width=8, command=self.toggle_method, cursor="hand2")
         trim_by_frame.grid(column=1, row=1, sticky="NW")
 
-        trim_by_time = ttk.Radiobutton(self.trim_frame, variable=self.trim_method_var, text = "Time", value = "Time", width=8, command=self.toggle_method)
+        trim_by_time = ttk.Radiobutton(self.trim_frame, variable=self.trim_method_var, text = "Time", value = "Time", width=8, command=self.toggle_method, cursor="hand2")
         trim_by_time.grid(column=1, row=2, sticky="NW")
 
         # Trim spinbox hideable frames
@@ -283,62 +283,66 @@ class MainWindow:
 
         # File number start check option
         self.start_frame_check_var = BooleanVar(value=self.defaults["start_frame_check"]) # False by default
-        self.start_frame_check = Checkbutton(self.trim_frame, text="Number files from trim start frame instead of from 1", variable=self.start_frame_check_var, font=font_italic)
+        self.start_frame_check = Checkbutton(self.trim_frame, text="Number files from trim start frame instead of from 1", variable=self.start_frame_check_var, font=font_italic, cursor="hand2")
         self.start_frame_check.grid(column=1, columnspan=3, row=3, sticky="W")
 
         # Operation label
         ttk.Label(main_frame, text="Operation", font=font_heading).grid(column=1, row=10, sticky="W")
 
         # Process file button
-        self.process_button = ttk.Button(main_frame, text="Process file manually", command=self.process_manually, padding=(5, 2, 5, 2))
-        self.process_button.grid(column=1, columnspan=2, row=11, sticky="EW")
+        self.process_button = ttk.Button(main_frame, text="Process file manually", command=self.process_manually, padding=(5, 2, 5, 2), cursor="hand2")
+        self.process_button.grid(column=1, row=11, sticky="EW")
 
         self.process_label_var = StringVar(value=self.defaults["process_label"])
-        self.process_label = ttk.Label(main_frame, textvariable=self.process_label_var, font=font_italic, justify="left", wraplength=460)
-        self.process_label.grid(column=3, columnspan=2, row=11, sticky="WE")
+        self.process_label = ttk.Label(main_frame, textvariable=self.process_label_var, font=font_italic, justify="left", wraplength=500)
+        self.process_label.grid(column=2, columnspan=3, row=11, sticky="WE")
         
         # FFmpeg command button
-        self.cmd_button = ttk.Button(main_frame, text="Make FFmpeg command", command=self.make_command, padding=(5, 2, 5, 2))
-        self.cmd_button.grid(column=1, columnspan=2, row=11, sticky="EW")
+        self.cmd_button = ttk.Button(main_frame, text="Make command", command=self.make_command, padding=(5, 2, 5, 2), cursor="hand2")
+        self.cmd_button.grid(column=1, row=11, sticky="EW")
 
         self.cmd_label_var = StringVar(value=self.defaults["cmd_label"])
         self.cmd_label = ttk.Label(main_frame, textvariable=self.cmd_label_var, font=font_italic, justify="left", wraplength=500)
-        self.cmd_label.grid(column=3, columnspan=2, row=11, sticky="WE")
+        self.cmd_label.grid(column=2, columnspan=3, row=11, sticky="WE")
 
         ttk.Separator(main_frame, orient=HORIZONTAL).grid(column=1, columnspan=4, row=12, sticky="EW")
 
         # FFmpeg command box
         self.cmd_var = StringVar(value=self.defaults["cmd"])
-        cmd_label = ttk.Label(main_frame, textvariable=self.cmd_var, font="TkFixedFont", justify="center", wraplength=742)
-        cmd_label.grid(column=1, columnspan=4, row=17, sticky="NSEW")
+        self.cmd = ttk.Label(main_frame, textvariable=self.cmd_var, font="TkFixedFont", justify="center", wraplength=742)
+        self.cmd.grid(column=1, columnspan=4, row=13, sticky="NSEW")
 
-        ttk.Separator(main_frame, orient=HORIZONTAL).grid(column=1, columnspan=4, row=18, sticky="EW")
+        ttk.Separator(main_frame, orient=HORIZONTAL).grid(column=1, columnspan=4, row=14, sticky="EW")
 
         # Run FFmpeg tool button
         self.exe_button = ttk.Button(main_frame, text="Run FFmpeg", command=self.run_tool, padding=(5, 2, 5, 2))
-        self.exe_button.grid(column=1, columnspan=2, row=19, sticky="EW")
-        self.exe_button.config(state="disabled")
+        self.exe_button.grid(column=1, row=15, sticky="EW")
+        self.exe_button.config(state="disabled", cursor="")
 
         # FFmpeg tool progress report
         self.progress_var = StringVar(value=self.defaults["progress"])
-        op_label = ttk.Label(main_frame, textvariable=self.progress_var, font=font_italic, justify="left", wraplength=460)
-        op_label.grid(column=3, columnspan=2, row=19, sticky="NSEW")
+        op_label = ttk.Label(main_frame, textvariable=self.progress_var, font=font_italic, justify="left", wraplength=460, width=40)
+        op_label.grid(column=2, columnspan=3, row=15, sticky="NSEW")
+
+        # Copy FFmpeg command button
+        self.copy_cmd_button = ttk.Button(main_frame, text="Copy command", command=self.copy_command, padding=(5, 2, 5, 2), cursor="hand2")
+        self.copy_cmd_button.grid(column=4, row=15, sticky="E")
 
         # Progress bar
         self.progress_bar = ttk.Progressbar(main_frame, orient="horizontal", mode="determinate")
-        self.progress_bar.grid(column=1, columnspan=3, row=20, sticky="NESW")
+        self.progress_bar.grid(column=1, columnspan=3, row=16, sticky="NESW")
 
         # View created files Button
-        self.view_button = ttk.Button(main_frame, text="View files", command=self.view_folder, padding=(5, 2, 5, 2))
-        self.view_button.grid(column=4, columnspan=2, row=20, sticky="EW")
+        self.view_button = ttk.Button(main_frame, text="View files", command=self.view_folder, padding=(5, 2, 5, 2), cursor="hand2")
+        self.view_button.grid(column=4, columnspan=2, row=16, sticky="EW")
 
         # Styling, resizing rules, padding, etc.
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
         main_frame.columnconfigure(1, weight=0, minsize=50)
         main_frame.columnconfigure(2, weight=0, minsize=50)
-        main_frame.columnconfigure(3, weight=1)
-        main_frame.columnconfigure(4, weight=1)
+        main_frame.columnconfigure(3, weight=0)
+        main_frame.columnconfigure(4, weight=0)
         for child in main_frame.winfo_children(): 
             child.grid_configure(padx=3, pady=3)
 
@@ -348,7 +352,7 @@ class MainWindow:
         root.geometry("")
 
         # Hide currently unnecessary parts
-        self.hide_widget()
+        self.widget_vis()
 
         # Give first entry field focus, bind returns
         in_entry.focus()
@@ -379,26 +383,23 @@ class MainWindow:
 
             elif current_input == sel_file:
                 self.reset_vars("progress", "cmd", "cmd_label")
-                
-                self.hide_widget("progress_bar", "view_button")
-                self.exe_button.config(state="disabled")
+                self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                self.exe_button.config(state="disabled", cursor="")
 
             else:
                 self.in_var.set("No file selected")
                 self.reset_vars("progress", "cmd", "cmd_label", "meta")
-                self.hide_widget()
-                self.process_button.grid()
-                self.process_label.grid()
+                self.widget_vis()
+                self.widget_vis(True, "process_button", "process_label")
                 self.preview_image.configure(image=self.empty_img)
-                self.exe_button.config(state="disabled")
+                self.exe_button.config(state="disabled", cursor="")
         except:
             self.in_var.set("Error selecting file")
             self.reset_vars("progress", "cmd", "cmd_label", "meta")
-            self.hide_widget()
-            self.process_button.grid()
-            self.process_label.grid()
+            self.widget_vis()
+            self.widget_vis(True, "process_button", "process_label")
             self.preview_image.configure(image=self.empty_img)
-            self.exe_button.config(state="disabled")
+            self.exe_button.config(state="disabled", cursor="")
     
     # Output button action
     def choose_output(self):
@@ -412,18 +413,23 @@ class MainWindow:
             if current_output != sel_dir and sel_dir != "":
                 self.out_var.set(sel_dir)
                 self.reset_vars("progress", "cmd", "cmd_label")
+                self.widget_vis(False, "progress_bar", "view_button","copy_cmd_button")
             
             elif current_output == sel_dir:
                 self.reset_vars("progress", "cmd", "cmd_label")
-                self.exe_button.config(state="disabled")
+                self.widget_vis(False, "progress_bar", "view_button","copy_cmd_button")
+                self.exe_button.config(state="disabled", cursor="")
             else:
                 self.out_var.set("No folder selected")
-                self.reset_vars("progress", "cmd", "cmd_label")
-                self.exe_button.config(state="disabled")
+                self.cmd_label_var.set("No folder selected")
+                self.reset_vars("progress", "cmd")
+                self.widget_vis(False, "progress_bar", "view_button","copy_cmd_button")
+                self.exe_button.config(state="disabled", cursor="")
         except:
             self.out_var.set("Error selecting folder")
             self.reset_vars("progress", "cmd", "cmd_label")
-            self.exe_button.config(state="disabled")
+            self.widget_vis(False, "progress_bar", "view_button","copy_cmd_button")
+            self.exe_button.config(state="disabled", cursor="")
     
     # Process input file metadata and preview image
     def process_file(self, to_process, meta=True, preview=True):
@@ -434,16 +440,15 @@ class MainWindow:
         # Check whether input is a video
         if not any(str(to_process).lower().endswith(ext) for ext in video_extensions):
             self.reset_vars("progress", "cmd_label")
-            self.process_button.grid()
-            self.process_label.grid()
-            self.hide_widget("progress_bar", "view_button", "cmd_button", "cmd_label", "trim_check", "options_frame")
-            self.exe_button.config(state="disabled")
+            self.widget_vis(True, "process_button", "process_label")
+            self.widget_vis(False, "progress_bar", "view_button", "cmd_button", "cmd_label", "options_frame", "copy_cmd_button")
+            self.exe_button.config(state="disabled", cursor="")
             self.cmd_var.set("Error: Input file is not a video")
             return False
 
-        self.options_frame.grid()
+        self.widget_vis(True, "options_frame")
         self.reset_vars("trim_check", "trim_method", "start_frame_check")
-        self.hide_widget("trim_frame")
+        self.widget_vis(False, "trim_frame")
 
         if processing_path.is_absolute():
             self.in_folder = processing_path.parent
@@ -484,7 +489,7 @@ class MainWindow:
                     Frames:\t\t{self.in_frames}""")
                 
                 # Set fields
-                self.meta_head.grid()
+                self.widget_vis(True, "meta_head")
                 self.meta_var.set(meta_txt)
             
             
@@ -494,7 +499,7 @@ class MainWindow:
                 preview_path = self.generate_preview()
 
                 # Set fields
-                self.preview_head.grid()
+                self.widget_vis(True, "preview_head")
                 self.img = PhotoImage(file=preview_path)
                 self.preview_image.configure(image=self.img)
             
@@ -511,11 +516,9 @@ class MainWindow:
                 self.out_var.set(out_folder)
             
             self.reset_vars("progress", "cmd_label", "cmd")
-            self.hide_widget("progress_bar", "view_button", "process_button", "process_label")
-            self.trim_check.grid()
-            self.cmd_button.grid()
-            self.cmd_label.grid()
-            self.exe_button.config(state="disabled")
+            self.widget_vis(False, "progress_bar", "view_button", "process_button", "process_label", "copy_cmd_button")
+            self.widget_vis(True, "cmd_button", "cmd_label")
+            self.exe_button.config(state="disabled", cursor="")
             
             # Store selected file as last processed
             self.last_processed = self.processing
@@ -531,19 +534,17 @@ class MainWindow:
         
         if not current_input or current_input in ("No file selected", "Input file path"):
             self.cmd_var.set("No file selected")
-            self.process_button.grid()
-            self.process_label.grid()
-            self.hide_widget("progress_bar", "view_button", "cmd_button", "cmd_label", "trim_check", "options_frame")
+            self.widget_vis(True, "process_button", "process_label")
+            self.widget_vis()
             self.reset_vars("progress","cmd_label")
-            self.exe_button.config(state="disabled")
+            self.exe_button.config(state="disabled", cursor="")
             return False
         elif not Path(input_entry).is_file():
             self.cmd_var.set("Error: Input file doesn't exist")
             self.reset_vars("progress","cmd_label")
-            self.process_button.grid()
-            self.process_label.grid()
-            self.hide_widget("progress_bar", "view_button", "cmd_button", "cmd_label", "trim_check", "options_frame")
-            self.exe_button.config(state="disabled")
+            self.widget_vis(True, "process_button", "process_label")
+            self.widget_vis()
+            self.exe_button.config(state="disabled", cursor="")
             return False
             
         else:
@@ -581,9 +582,9 @@ class MainWindow:
                 
                 # Checκ not empty
                 if not current_output.strip() or current_output in ("No folder selected", "Output folder path"):
-                    self.cmd_var.set("No folder selected")
-                    self.reset_vars("progress", "cmd_label")
-                    self.exe_button.config(state="disabled")
+                    self.cmd_label_var.set("No folder selected")
+                    self.reset_vars("progress", "cmd")
+                    self.exe_button.config(state="disabled", cursor="")
                     return
                 elif output_entry.is_absolute() or (is_windows and os.path.splitdrive(current_output)[0]):
                     self.output_folder = output_entry.resolve()
@@ -609,7 +610,7 @@ class MainWindow:
                 fps = self.fps_var.get()
                 scale = float(self.scale_var.get())
                 self.num_digits = len(str(self.in_frames))
-                start_number = 1
+                start_number = "1"
                 if self.pad_check_var.get():
                     padding = f"%0{self.num_digits}d"
                 else:
@@ -643,8 +644,8 @@ class MainWindow:
                             # Cancel making command
                             self.cmd_label_var.set("Error: Both trim times out of range; check and try again")
                             self.reset_vars("progress", "cmd")
-                            self.hide_widget("progress_bar", "view_button")
-                            self.exe_button.config(state="disabled")
+                            self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                            self.exe_button.config(state="disabled", cursor="")
                             return
 
                         elif total_start < 0 or total_start > self.duration:
@@ -654,8 +655,8 @@ class MainWindow:
                             
                             self.cmd_label_var.set("Error: Start trim time out of range; check and try again")
                             self.reset_vars("progress", "cmd")
-                            self.hide_widget("progress_bar", "view_button")
-                            self.exe_button.config(state="disabled")
+                            self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                            self.exe_button.config(state="disabled", cursor="")
                             return
 
                         elif total_end < 0 or total_end > self.duration:
@@ -665,8 +666,8 @@ class MainWindow:
                             
                             self.cmd_label_var.set("Error: End trim time out of range; check and try again")
                             self.reset_vars("progress", "cmd")
-                            self.hide_widget("progress_bar", "view_button")
-                            self.exe_button.config(state="disabled")
+                            self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                            self.exe_button.config(state="disabled", cursor="")
                             return
                         
                         # Flip reversed trim entries
@@ -719,8 +720,8 @@ class MainWindow:
                             # Cancel making command
                             self.cmd_label_var.set("Error: Both trim frames out of range; check and try again")
                             self.reset_vars("progress", "cmd")
-                            self.hide_widget("progress_bar", "view_button")
-                            self.exe_button.config(state="disabled")
+                            self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                            self.exe_button.config(state="disabled", cursor="")
                             return
 
                         elif start_frame < 0 or start_frame > self.in_frames:
@@ -730,8 +731,8 @@ class MainWindow:
                             
                             self.cmd_label_var.set("Error: Start trim frame out of range; check and try again")
                             self.reset_vars("progress", "cmd")
-                            self.hide_widget("progress_bar", "view_button")
-                            self.exe_button.config(state="disabled")
+                            self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                            self.exe_button.config(state="disabled", cursor="")
                             return
 
                         elif end_frame < 0 or end_frame > self.in_frames:
@@ -741,8 +742,8 @@ class MainWindow:
                             
                             self.cmd_label_var.set("Error: End trim frame out of range; check and try again")
                             self.reset_vars("progress", "cmd")
-                            self.hide_widget("progress_bar", "view_button")
-                            self.exe_button.config(state="disabled")
+                            self.widget_vis(False, "progress_bar", "view_button", "copy_cmd_button")
+                            self.exe_button.config(state="disabled", cursor="")
                             return
                         
                         # Flip reversed trim entries
@@ -783,12 +784,15 @@ class MainWindow:
                 # Check for errors - TO DO (only checks input exists atm)                
 
                 self.cmd_var.set(" ".join(self.ffmpeg_cmd))
-                self.exe_button.config(state="normal")
-                self.progress_var.set(f"Now run FFmpeg; expected output total: {self.total_expected_frames} images")
+                self.exe_button.config(state="normal", cursor="hand2")
+                self.progress_var.set(f"Now run FFmpeg; expected output: {self.total_expected_frames} images")
+                self.widget_vis(True, "copy_cmd_button")
         except:
             self.cmd_label_var.set("Error making command: check entries are valid")
             self.reset_vars("progress", "cmd")
-    
+            self.widget_vis(False, "progress_bar", "view_button","copy_cmd_button")
+            self.exe_button.config(state="disabled", cursor="")
+                
     def run_tool(self):
         # Check overwrite status
         if not self.overwrite_var.get():
@@ -804,8 +808,8 @@ class MainWindow:
                 if check != 0:
                     self.progress_var.set(f"Error: {str(check)}/{str(self.in_frames)} files exist but \"overwrite\" is off; click to view")
                     # Reveal the view folder button to look at output
-                    self.view_button.grid()
-                    self.hide_widget("progress_bar")
+                    self.widget_vis(True, "view_button")
+                    self.widget_vis(False, "progress_bar")
                     return
                 else:
                     pass # There are files but none match, continue
@@ -824,7 +828,7 @@ class MainWindow:
         worker.start()  # Threaded so GUI won't freeze
         
         # Reveal the view folder button to look at output
-        self.view_button.grid()
+        self.widget_vis(True, "view_button")
 
     # Get the monitor size and locate window in the centre
     def center_geometry(self):
@@ -938,25 +942,34 @@ class MainWindow:
                     getattr(self, f"{var_name}_var").set(self.defaults[var_name])
     
     # Hide unnecessary widgets
-    def hide_widget(self, *to_hide):
-        if not to_hide:
-            # Reset all to defaults.
-            for widget in self.hideable:
-                getattr(self, widget).grid_remove()
-                
+    def widget_vis(self, vis=False, *widgets):
+        if vis == False:
+            if not widgets:
+                # Hide all
+                for widget in self.hideable:
+                    getattr(self, widget).grid_remove()
+            else:
+                # Hide only the specified widgets
+                for widget in widgets:
+                    getattr(self, widget).grid_remove()
+            
         else:
-            # Reset only the specified vars; leave others unchanged.
-            for widget in to_hide:
-                getattr(self, widget).grid_remove()
+            if not widgets:
+                # Show all
+                for widget in self.hideable:
+                    getattr(self, widget).grid()
+            else:
+                # Show only the specified widgets
+                for widget in widgets:
+                    getattr(self, widget).grid()
     
     # One method to reset them all
     def reset_tool(self):
         self.reset_vars()
-        self.hide_widget()
-        self.process_button.grid()
-        self.process_label.grid()
+        self.widget_vis()
+        self.widget_vis(True, "process_button", "process_label")
         self.preview_image.configure(image=self.empty_img)
-        self.exe_button.config(state="disabled")
+        self.exe_button.config(state="disabled", cursor="")
 
     # Reveal or hide the trim options   
     def toggle_trim(self):
@@ -964,17 +977,17 @@ class MainWindow:
             # Force method to populate data
             self.toggle_method()
             # Show trim widgets
-            self.trim_frame.grid()
+            self.widget_vis(True, "trim_frame")
         else:
             # Hide trim widgets
             self.reset_vars("trim_method", "start_frame_check")
-            self.hide_widget("trim_frame")
+            self.widget_vis(False, "trim_frame")
 
     def toggle_method(self):
         if self.trim_method_var.get() == "Frames":
             # Hide by time options frame & show by frames option
-            self.trim_t_frame.grid_remove()
-            self.trim_f_frame.grid()
+            self.widget_vis(False, "trim_t_frame")
+            self.widget_vis(True, "trim_f_frame")
 
             # Configure boxes based on metadata
             self.start_f_spinbox.configure(to=self.in_frames)
@@ -986,8 +999,8 @@ class MainWindow:
 
         elif self.trim_method_var.get() == "Time":
             # Hide by frames options frame & show by time options
-            self.trim_f_frame.grid_remove()
-            self.trim_t_frame.grid()
+            self.widget_vis(False, "trim_f_frame")
+            self.widget_vis(True, "trim_t_frame")
 
             # Configure boxes based on metadata
             if self.hours > 0:
@@ -1016,6 +1029,12 @@ class MainWindow:
             self.time_per_frame_var.set(f"Seconds per frame ≈ {round(self.time_per_frame, 5)}")
         else:
             print("Error: Trim method uncertain")
+    
+    # Copy FFmpeg command to clipboard
+    def copy_command(self):
+        root.clipboard_clear()
+        root.clipboard_append(self.cmd_var.get())
+
 
 
 class Worker(Thread):
